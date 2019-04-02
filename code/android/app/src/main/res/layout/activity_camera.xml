@@ -4,5 +4,5 @@
              android:id="@+id/container"
              android:layout_width="match_parent"
              android:layout_height="match_parent"
-             android:background="#000"/>
-            <!-- tools:context="com.example.android.tflitecamerademo.RecognitionObjects.CameraActivity"  -!>
+             android:background="#000"
+             tools:context="tech.aksharam.handgesture.RecognitionObjects.CameraActivity" />
