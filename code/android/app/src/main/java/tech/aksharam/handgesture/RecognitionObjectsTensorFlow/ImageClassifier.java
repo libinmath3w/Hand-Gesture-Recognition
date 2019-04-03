@@ -5,14 +5,23 @@ import android.content.res.AssetFileDescriptor;
 import android.graphics.Bitmap;
 import android.os.SystemClock;
 import android.util.Log;
+
 import org.tensorflow.lite.Interpreter;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.MappedByteBuffer;
 import java.nio.channels.FileChannel;
-import java.util.*;
+import java.util.AbstractMap;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Map;
+import java.util.PriorityQueue;
 
 public class ImageClassifier {
 
@@ -52,7 +61,7 @@ public class ImageClassifier {
 
     private static final float FILTER_FACTOR = 0.4f;
 
-    private PriorityQueue<Map.Entry<String, Float>> storedLabels = new PriorityQueue<>(RESULTS_TO_SHOW, new Comparator<Map.Entry<String, Float>>() {
+    private PriorityQueue<Map.Entry<String, Float>> sortedLabels = new PriorityQueue<>(RESULTS_TO_SHOW, new Comparator<Map.Entry<String, Float>>() {
         @Override
         public int compare(Map.Entry<String, Float> o1, Map.Entry<String, Float> o2) {
             return (o1.getValue()).compareTo(o2.getValue());
@@ -137,10 +146,38 @@ private void convertBitmapToByteBuffer (Bitmap bitmap){
                 imgData.putFloat((((val) & 0xFF)-IMAGE_MEAN)/IMAGE_STD);
             }
         }
-long endTime = SystemClock.uptimeMillis();
+        long endTime = SystemClock.uptimeMillis();
         Log.d(TAG,"Time cost to put values in ByteBuffer" + Long.toString(endTime - startTime));
 
 }
+    private String printTopKLabels() {
+        for (int i = 0; i < labelList.size(); ++i) {
+            sortedLabels.add(
+                    new AbstractMap.SimpleEntry<>(labelList.get(i), labelProbArray[0][i]));
+            if (sortedLabels.size() > RESULTS_TO_SHOW) {
+                sortedLabels.poll();
+            }
+        }
+        String textToShow = "";
+        final int size = sortedLabels.size();
+        for (int i = 0; i < size; ++i) {
+            Map.Entry<String, Float> label = sortedLabels.poll();
+            switch (label.getKey()){
+                case "0": textToShow = String.format("\nNumero (%s) = %4.2f",label.getKey(),label.getValue()) + textToShow; break;
+                case "1": textToShow = String.format("\nNumero (%s) = %4.2f",label.getKey(),label.getValue()) + textToShow; break;
+                case "2": textToShow = String.format("\nNumero (%s) = %4.2f",label.getKey(),label.getValue()) + textToShow; break;
+                case "3": textToShow = String.format("\nNumero (%s) = %4.2f",label.getKey(),label.getValue()) + textToShow; break;
+                case "4": textToShow = String.format("\nNumero (%s) = %4.2f",label.getKey(),label.getValue()) + textToShow; break;
+                case "5": textToShow = String.format("\nNumero (%s) = %4.2f",label.getKey(),label.getValue()) + textToShow; break;
+                case "a": textToShow = String.format("\nVocal (%s) = %4.2f",label.getKey(),label.getValue()) + textToShow; break;
+                case "e": textToShow = String.format("\nVocal (%s) = %4.2f",label.getKey(),label.getValue()) + textToShow; break;
+                case "i": textToShow = String.format("\nVocal (%s) = %4.2f",label.getKey(),label.getValue()) + textToShow; break;
+                case "o": textToShow = String.format("\nVocal (%s) = %4.2f",label.getKey(),label.getValue()) + textToShow; break;
+                case "u": textToShow = String.format("\nVocal (%s) = %4.2f",label.getKey(),label.getValue()) + textToShow; break;
+            }
 
+        }
+        return textToShow;
+    }
 
 }
