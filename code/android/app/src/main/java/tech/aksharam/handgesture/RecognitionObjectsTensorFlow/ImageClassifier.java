@@ -122,5 +122,25 @@ private MappedByteBuffer loadModelFile (Activity activity) throws  IOException {
     return fileChannel.map(FileChannel.MapMode.READ_ONLY,startoffset,declaredLength);
 
 }
+private void convertBitmapToByteBuffer (Bitmap bitmap){
+        if(imgData == null)
+            return;
+        imgData.rewind();
+        bitmap.getPixels(intValues,0, bitmap.getWidth(),0,0, bitmap.getWidth(),bitmap.getHeight());
+        int pixel = 0;
+        long startTime = SystemClock.uptimeMillis();
+        for (int i = 0;i <DIM_IMG_SIZE_X; ++i) {
+            for (int j = 0; j <DIM_IMG_SIZE_Y; ++j) {
+                final int val = intValues[pixel++];
+                imgData.putFloat((((val >> 16) & 0xFF)-IMAGE_MEAN)/IMAGE_STD);
+                imgData.putFloat((((val >> 8 )& 0xFF) - IMAGE_MEAN)/IMAGE_STD);
+                imgData.putFloat((((val) & 0xFF)-IMAGE_MEAN)/IMAGE_STD);
+            }
+        }
+long endTime = SystemClock.uptimeMillis();
+        Log.d(TAG,"Time cost to put values in ByteBuffer" + Long.toString(endTime - startTime));
+
+}
+
 
 }
