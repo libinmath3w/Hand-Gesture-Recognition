@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.view.View;
 import tech.aksharam.handgesture.R;
+import tech.aksharam.handgesture.RecognitionObjects.CameraActivity;
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -32,15 +33,15 @@ public class HomeActivity extends AppCompatActivity {
         object.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               // Intent intent = new Intent(HomeActivity.this, CameraActivity.class);
-                //startActivity(intent);
+                Intent intent = new Intent(HomeActivity.this, CameraActivity.class);
+                startActivity(intent);
             }
         });
 
         objectfirebase.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Intent intent = new Intent(HomeActivity.this, RecognitionFirebaseActivity.class);
+               // Intent intent = new Intent(HomeActivity.this, RecognitionFirebaseActivity.class);
                 //startActivity(intent);
             }
         });
