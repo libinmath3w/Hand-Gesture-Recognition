@@ -1,18 +1,18 @@
 package tech.aksharam.handgesture.RecognitionObjectsTensorFlow;
 
 import android.app.Activity;
+import android.content.res.AssetFileDescriptor;
 import android.graphics.Bitmap;
 import android.os.SystemClock;
 import android.util.Log;
 import org.tensorflow.lite.Interpreter;
 
-import java.io.IOException;
+import java.io.*;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
-import java.util.PriorityQueue;
+import java.nio.MappedByteBuffer;
+import java.nio.channels.FileChannel;
+import java.util.*;
 
 public class ImageClassifier {
 
@@ -102,4 +102,25 @@ public class ImageClassifier {
         tflite.close();
         tflite = null;
     }
+
+    private List<String> loadLabelList (Activity activity) throws IOException {
+        List<String> labelList = new ArrayList<>();
+        BufferedReader reader = new BufferedReader(new InputStreamReader(activity.getAssets().open(LABEL_PATH)));
+        String line;
+        while ((line = reader.readLine()) != null) {
+            labelList.add(line);
+        }
+        reader.close();
+        return labelList;
+    }
+private MappedByteBuffer loadModelFile (Activity activity) throws  IOException {
+    AssetFileDescriptor fileDescriptor = activity.getAssets().openFd(MODEL_PATH);
+    FileInputStream inputStream = new FileInputStream(fileDescriptor.getFileDescriptor());
+    FileChannel fileChannel = inputStream.getChannel();
+    long startoffset = fileDescriptor.getDeclaredLength();
+    long declaredLength = fileDescriptor.getDeclaredLength();
+    return fileChannel.map(FileChannel.MapMode.READ_ONLY,startoffset,declaredLength);
+
+}
+
 }
