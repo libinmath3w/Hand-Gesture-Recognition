@@ -321,7 +321,7 @@ public class Camera2BasicFragment extends Fragment
                         }
                         break;
                     default:
-                        Log.e(TAG, "The rotation of the screen is not valid: " + displayRotation);
+                        Log.e(TAG, "The rotation of the screen is not valid:" + displayRotation);
                         Toast.makeText(activity, "The rotation of the screen is not valid: "+displayRotation, Toast.LENGTH_SHORT).show();
                 }
 
