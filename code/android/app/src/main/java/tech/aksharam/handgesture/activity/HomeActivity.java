@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.view.View;
 import tech.aksharam.handgesture.R;
+import tech.aksharam.handgesture.RecognitionFirebase.RecognitionFirebaseActivity;
 import tech.aksharam.handgesture.RecognitionObjects.CameraActivity;
 
 public class HomeActivity extends AppCompatActivity {
@@ -17,16 +18,16 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-       // hand = (CardView) findViewById(R.id.cardHand);
-       // object = (CardView) findViewById(R.id.cardObject);
-       // objectfirebase = (CardView)findViewById(R.id.cardObjectFirebase);
+        hand = (CardView) findViewById(R.id.cardHand);
+        object = (CardView) findViewById(R.id.cardObject);
+        objectfirebase = (CardView)findViewById(R.id.cardObjectFirebase);
 
 
         hand.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Intent intent = new Intent(HomeActivity.this, Camera2Activity.class);
-                //startActivity(intent);
+               // Intent intent = new Intent(HomeActivity.this, Camera2Activity.class);
+               // startActivity(intent);
             }
         });
 
@@ -41,8 +42,8 @@ public class HomeActivity extends AppCompatActivity {
         objectfirebase.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               // Intent intent = new Intent(HomeActivity.this, RecognitionFirebaseActivity.class);
-                //startActivity(intent);
+                Intent intent = new Intent(HomeActivity.this, RecognitionFirebaseActivity.class);
+                startActivity(intent);
             }
         });
     }
